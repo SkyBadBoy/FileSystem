@@ -51,7 +51,8 @@ public class FileController {
                 f.setOSS(true);
                 returnMap= CommonUtil.SuccessReturn("文件上传成功",f);
             }else{
-                String RealPath = CommonUtil.FileExist(CommonUtil.getAbsolutePhth(request) + "static/FileUpload/"+Project+"/"+DirName+"/"+CommonUtil.sdfDate.format(new Date())+"/") + fileName;
+                String Time=CommonUtil.sdfDate.format(new Date());
+                String RealPath = CommonUtil.FileExist(CommonUtil.getAbsolutePhth(request) + "static/FileUpload/"+Project+"/"+DirName+"/"+Time+"/") + fileName;
                 try {
                     InputStream stream = file.getInputStream();
                     OutputStream bos = new FileOutputStream(RealPath);
@@ -64,7 +65,8 @@ public class FileController {
                     stream.close();
                     File f=new File();
                     f.setPath(RealPath);
-                    f.setUrl(CommonUtil.getProjectBaseUrl(request)+"FileUpload/"+Project+"/"+DirName+"/"+CommonUtil.sdfDate.format(new Date())+"/"+fileName);
+                    //CommonUtil.getProjectBaseUrl(request)+
+                    f.setUrl("/FileUpload/"+Project+"/"+DirName+"/"+Time+"/"+fileName);
                     f.setSize(file.getSize());
                     f.setOSS(false);
                     returnMap= CommonUtil.SuccessReturn("文件上传成功",f);
@@ -103,11 +105,13 @@ public class FileController {
                 f.setOSS(true);
                 returnMap= CommonUtil.SuccessReturn("文件上传成功",f);
             }else{
-                String RealPath = CommonUtil.FileExist(CommonUtil.getAbsolutePhth(request) + "static/FileUpload/"+Project+"/"+DirName+"/"+CommonUtil.sdfDate.format(new Date())+"/") + fileName;
+                String Time=CommonUtil.sdfDate.format(new Date());
+                String RealPath = CommonUtil.FileExist(CommonUtil.getAbsolutePhth(request) + "static/FileUpload/"+Project+"/"+DirName+"/"+Time+"/") + fileName;
                 boolean isBase = CommonUtil.GenerateImageBase64(data.split(",")[1], RealPath);
                 if(isBase){
                     File f=new File();
-                    f.setUrl(CommonUtil.getProjectBaseUrl(request)+"FileUpload/"+Project+"/"+DirName+"/"+CommonUtil.sdfDate.format(new Date())+"/"+fileName);
+                    //CommonUtil.getProjectBaseUrl(request)+
+                    f.setUrl("/FileUpload/"+Project+"/"+DirName+"/"+Time+"/"+fileName);
                     f.setOSS(true);
                     returnMap= CommonUtil.SuccessReturn("文件上传成功",f);
                 }else{
