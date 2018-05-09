@@ -66,7 +66,7 @@ public class FileController {
                     File f=new File();
                     f.setPath(RealPath);
                     //CommonUtil.getProjectBaseUrl(request)+
-                    f.setUrl("/FileUpload/"+Project+"/"+DirName+"/"+Time+"/"+fileName);
+                    f.setUrl(CommonUtil.getProjectBaseUrl(request)+"/FileUpload/"+Project+"/"+DirName+"/"+Time+"/"+fileName);
                     f.setSize(file.getSize());
                     f.setOSS(false);
                     returnMap= CommonUtil.SuccessReturn("文件上传成功",f);
@@ -110,8 +110,8 @@ public class FileController {
                 boolean isBase = CommonUtil.GenerateImageBase64(data.split(",")[1], RealPath);
                 if(isBase){
                     File f=new File();
-                    //CommonUtil.getProjectBaseUrl(request)+
-                    f.setUrl("/FileUpload/"+Project+"/"+DirName+"/"+Time+"/"+fileName);
+
+                    f.setUrl(CommonUtil.getProjectBaseUrl(request)+"/FileUpload/"+Project+"/"+DirName+"/"+Time+"/"+fileName);
                     f.setOSS(true);
                     returnMap= CommonUtil.SuccessReturn("文件上传成功",f);
                 }else{
