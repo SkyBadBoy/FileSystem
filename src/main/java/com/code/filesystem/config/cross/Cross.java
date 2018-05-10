@@ -21,7 +21,8 @@ public class Cross extends OncePerRequestFilter {
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-Type", "application/json");
         //允许所以域名访问，*需要换位制定来源，务必注意这里
-        response.setHeader("Access-Control-Allow-Origin", "*");
+       //response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin",request.getHeader("origin"));
         //允许的访问方式
         response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type,auth_token");

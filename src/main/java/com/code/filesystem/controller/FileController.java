@@ -110,9 +110,8 @@ public class FileController {
                 boolean isBase = CommonUtil.GenerateImageBase64(data.split(",")[1], RealPath);
                 if(isBase){
                     File f=new File();
-
                     f.setUrl(CommonUtil.getProjectBaseUrl(request)+"FileUpload/"+Project+"/"+DirName+"/"+Time+"/"+fileName);
-                    f.setOSS(true);
+                    f.setOSS(false);
                     returnMap= CommonUtil.SuccessReturn("文件上传成功",f);
                 }else{
                     returnMap= CommonUtil.ErrorReturn("存储异常请稍后重试");
