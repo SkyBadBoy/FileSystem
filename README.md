@@ -66,10 +66,10 @@ post数据：key:file   value:file文件
 ```sh
 # OPEN 是否启动阿里云上传
 ali.oss.Open = false
-ali.oss.AccessKeyID =LTAI4GR0SnDhHOy6
-ali.oss.AccessKeySecret =pVWCeStIebIjtq9atQw4VU0IYL50YV
-ali.oss.Endpoint =oss-cn-hangzhou.aliyuncs.com
-ali.oss.BucketName =majian
+ali.oss.AccessKeyID =
+ali.oss.AccessKeySecret =
+ali.oss.Endpoint =
+ali.oss.BucketName =
 ```
 
 end ! ! !  bye bye my name is 马健
