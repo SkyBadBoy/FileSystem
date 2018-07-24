@@ -123,4 +123,68 @@ public class FileController {
         return returnMap;
     }
 
+    @ResponseBody
+    @PostMapping(value = "/{Project}/UploadIM")
+    public Map UploadIM(@PathVariable String Project,@RequestParam MultipartFile file,HttpServletRequest request) throws Exception {
+        Map<String, Object> returnMap = new HashMap<>(2);
+        if(!file.isEmpty()){
+            String suffix=CommonUtil.getFileSuffix(file);
+            String fileName = CommonUtil.get32UUID() +"."+ suffix;
+            String type=String.valueOf(CommonUtil.getExtType(suffix));
+            String DirName=CommonUtil.getDirName(type);
+            if(oss.isOpen()){
+                String url= UploadAliYunFile.UploadAliYunFileService(oss,DirName,Project,suffix,file.getInputStream());
+                File f=new File();
+                f.setUrl(url);
+                f.setSize(file.getSize());
+                f.setOSS(true);
+                returnMap.put("code",0);
+                returnMap.put("msg","文件上传成功");
+                Map<String, Object> data = new HashMap<>(2);
+                data.put("src",f.getUrl());
+                returnMap.put("data",data);
+            }else{
+                String Time=CommonUtil.sdfDate.format(new Date());
+                String RealPath = CommonUtil.FileExist(CommonUtil.getAbsolutePhth(request) + "static/FileUpload/"+Project+"/"+DirName+"/"+Time+"/") + fileName;
+                try {
+                    InputStream stream = file.getInputStream();
+                    OutputStream bos = new FileOutputStream(RealPath);
+                    int bytesRead = 0;
+                    byte[] buffer = new byte[10*1024];
+                    while ( (bytesRead = stream.read(buffer, 0, 10240)) != -1) {
+                        bos.write(buffer, 0, bytesRead);
+                    }
+                    bos.close();
+                    stream.close();
+                    File f=new File();
+                    f.setPath(RealPath);
+                    //CommonUtil.getProjectBaseUrl(request)+
+                    f.setUrl(CommonUtil.getProjectBaseUrl(request)+"FileUpload/"+Project+"/"+DirName+"/"+Time+"/"+fileName);
+                    f.setSize(file.getSize());
+                    f.setOSS(false);
+                    returnMap.put("code",0);
+                    returnMap.put("msg","文件上传成功");
+                    Map<String, Object> data = new HashMap<>(2);
+                    data.put("src",f.getUrl());
+                    returnMap.put("data",data);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    returnMap.put("code",-1);
+                    returnMap.put("msg","文件上传失败");
+                    Map<String, Object> data = new HashMap<>(2);
+                    data.put("src",null);
+                    returnMap.put("data",data);
+                }
+            }
+        }else{
+            returnMap.put("code",-1);
+            returnMap.put("msg","请上传文件");
+            Map<String, Object> data = new HashMap<>(2);
+            data.put("src",null);
+            returnMap.put("data",data);
+        }
+        return returnMap;
+    }
+
+
 }
